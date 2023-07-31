@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-07-31T13:13:36.035Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36" etag="5L_sRZLYimiTaYAdXjYE" version="21.6.6" type="github">
+<mxfile host="app.diagrams.net" modified="2023-07-31T18:14:08.608Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36" etag="OBYFI9bHcVN1OPplBC2K" version="21.6.6" type="github">
   <diagram name="Page-1" id="3EMlp-9R7rG22ihmm-BU">
     <mxGraphModel dx="1364" dy="771" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -18,6 +18,21 @@
         </mxCell>
         <mxCell id="OVazyhrCVgzTXYsW360u-4" value="&lt;b&gt;Users Repository&lt;br&gt;&lt;br&gt;&lt;/b&gt;(To handle user storage in DB)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="200" y="160" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-75bB8LByfJJvy2lAOm6-1" value="&lt;b&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Reports Controller&lt;/font&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="30" width="140" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="-75bB8LByfJJvy2lAOm6-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.133;entryY=1.025;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="-75bB8LByfJJvy2lAOm6-3" target="-75bB8LByfJJvy2lAOm6-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-75bB8LByfJJvy2lAOm6-3" value="&lt;b&gt;Reports Service&lt;br&gt;&lt;br&gt;&lt;/b&gt;(Add layer for data access and business logic)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=30;" vertex="1" parent="1">
+          <mxGeometry x="420" y="150" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-75bB8LByfJJvy2lAOm6-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.908;entryY=1.05;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="-75bB8LByfJJvy2lAOm6-5" target="-75bB8LByfJJvy2lAOm6-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-75bB8LByfJJvy2lAOm6-5" value="&lt;b&gt;Reports Repository&lt;br&gt;&lt;br&gt;&lt;/b&gt;(To handle user storage in DB)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="150" width="160" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
