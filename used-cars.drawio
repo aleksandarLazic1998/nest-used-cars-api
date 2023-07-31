@@ -1,9 +1,24 @@
-<mxfile host="app.diagrams.net" modified="2023-07-31T12:52:57.454Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36" version="21.6.6" etag="Y3qWmxjD3n5uD2rvK6UK" type="github">
+<mxfile host="app.diagrams.net" modified="2023-07-31T13:06:27.530Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36" etag="h5AkFbvCPlrNlUi495w2" version="21.6.6" type="github">
   <diagram name="Page-1" id="3EMlp-9R7rG22ihmm-BU">
-    <mxGraphModel>
+    <mxGraphModel dx="1364" dy="771" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="OVazyhrCVgzTXYsW360u-1" value="Users Controller" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="40" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="OVazyhrCVgzTXYsW360u-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.133;entryY=1.025;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="OVazyhrCVgzTXYsW360u-2" target="OVazyhrCVgzTXYsW360u-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OVazyhrCVgzTXYsW360u-2" value="Users Service&lt;br&gt;(Omogucava layer za data access i buissines logic)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry y="160" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="OVazyhrCVgzTXYsW360u-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.908;entryY=1.05;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="OVazyhrCVgzTXYsW360u-4" target="OVazyhrCVgzTXYsW360u-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="OVazyhrCVgzTXYsW360u-4" value="Users Repository&lt;br&gt;(Da handluje storage usera u neku DB)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="160" width="160" height="60" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
