@@ -6,13 +6,12 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private service: UsersService) {}
 
-  @Post('signup')
-  signupUser(@Body() body: CreateUserDto) {
-    this.service.createUser(body);
+  @Post('signup') // POST /auth/signup
+  async signupUser(@Body() body: CreateUserDto) {
+    return await this.service.createUser(body);
   }
 }
 
-// POST /auth/signup
 // POST /auth/signin
 // GET /auth/:id - fetch single user
 // GET /auth?email="some mail" - fetch list users by email query param
