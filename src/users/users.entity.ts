@@ -1,12 +1,14 @@
 import { IsString, IsStrongPassword } from 'class-validator';
-import { Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
+@Unique(['email'])
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
   @IsString()
+  @Column({ name: 'email' })
   email: string;
 
   @IsString()
@@ -16,5 +18,6 @@ export class User {
     minNumbers: 1,
     minSymbols: 1,
   })
+  @Column()
   password: string;
 }
