@@ -11,7 +11,6 @@ import {
   Post,
   Query,
   Session,
-  UnauthorizedException,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -23,13 +22,17 @@ import { Serialize } from 'src/interceptors/serializer.interceptor';
 import { CurrentUserDecorator } from 'src/decorators/current-user.decorator';
 import { CurrentUserInterceptor } from 'src/interceptors/current-user.interceptor';
 import { User } from './users.entity';
-import { AuthGuard } from 'src/guards/user-auth.guard';
-import { hash, compare } from 'bcrypt';
+import { AuthService } from './auth.service';
+import { AuthGuard } from 'src/guards/auth.guard';
 
+@Serialize(UserDto)
 @Controller('auth')
 @Serialize(UserDto)
 export class UsersController {
-  constructor(private userService: UsersService) {}
+  constructor(
+    private userService: UsersService,
+    private authService: AuthService,
+  ) {}
 
   @Get('whoami') // Get /auth/whoami
   @UseGuards(AuthGuard)
@@ -44,28 +47,15 @@ export class UsersController {
 
   @Post('signup') // POST /auth/signup
   async signupUser(@Body() body: CreateUserDto, @Session() session: any) {
-    const { email, password } = body;
+    const createdUser = await this.authService.signUp(body);
 
-    const hashedPassword = await hash(password, 10);
-
-    const createdUser = await this.userService.createUser({
-      email,
-      password: hashedPassword,
-    });
-
-    session.userId = createdUser.id;
+    // session.userId = createdUser.id;
     return createdUser;
   }
 
   @Post('signin') // POST /auth/signin
   async signInUser(@Body() body: CreateUserDto, @Session() session: any) {
-    const user = await this.userService.findOneUser({ email: body.email });
-
-    const isPasswordMatching = await compare(body.password, user.password);
-
-    if (!user || !isPasswordMatching) {
-      throw new NotFoundException('Email or password are not matching.');
-    }
+    const user = await this.authService.signIn(body);
 
     session.userId = user.id;
     return user;

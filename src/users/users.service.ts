@@ -3,6 +3,7 @@ import {
   Body,
   Injectable,
   NotFoundException,
+  Param,
 } from '@nestjs/common';
 import { User } from './users.entity';
 import { CreateUserDto } from 'src/typescript/dtos/create-user-dto';
@@ -10,6 +11,7 @@ import { Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UpdateUserDto } from 'src/typescript/dtos/update-user-dto';
 import { IFindUser } from 'src/typescript/interfaces/FindUser';
+import { hash } from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -18,8 +20,15 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) {}
 
-  createUser(body: CreateUserDto): Promise<User> {
-    const createdUser = this.userRepository.create(body);
+  async generate(body: CreateUserDto): Promise<User> {
+    const { email, password } = body;
+
+    const hashedPassword = await hash(password, 10);
+
+    const createdUser = this.userRepository.create({
+      email,
+      password: hashedPassword,
+    });
 
     if (!createdUser) {
       throw new BadRequestException('Body is missing some parameters.');
@@ -35,12 +44,6 @@ export class UsersService {
     if (email) query.email = email;
 
     const foundUser = await this.userRepository.findOneBy(query);
-
-    if (!foundUser) {
-      throw new NotFoundException(
-        `User with id or email: ${id || email} not found.`,
-      );
-    }
 
     return foundUser;
   }
@@ -71,12 +74,11 @@ export class UsersService {
     id: number,
     body: Partial<UpdateUserDto>,
   ): Promise<UpdateResult> {
-    const foundUser = await this.userRepository.findOneBy({ id });
-
-    if (!foundUser) {
-      throw new NotFoundException(`User with id: ${id} not found.`);
+    const user = await this.findOneUser({ id });
+    if (!user) {
+      throw new NotFoundException('user not found');
     }
 
-    return this.userRepository.update(foundUser, body);
+    return this.userRepository.update(id, { ...user, ...body });
   }
 }
