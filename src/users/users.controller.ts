@@ -27,6 +27,7 @@ import { AuthGuard } from 'src/guards/auth.guard';
 
 @Serialize(UserDto)
 @Controller('auth')
+@Serialize(UserDto)
 export class UsersController {
   constructor(
     private userService: UsersService,
@@ -35,15 +36,13 @@ export class UsersController {
 
   @Get('whoami') // Get /auth/whoami
   @UseGuards(AuthGuard)
-  whoAmi(@CurrentUserDecorator() user: User) {
+  whoAmi(@CurrentUserDecorator() user: User, @Session() session: any) {
     return user;
   }
 
   @Post('signout')
   signOutUser(@Session() session: any) {
     session.userId = null;
-
-    return {};
   }
 
   @Post('signup') // POST /auth/signup
