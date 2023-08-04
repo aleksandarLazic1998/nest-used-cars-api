@@ -11,6 +11,7 @@ import {
   Post,
   Query,
   Session,
+  UnauthorizedException,
   UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/typescript/dtos/create-user-dto';
@@ -23,21 +24,24 @@ import { CurrentUserInterceptor } from 'src/interceptors/current-user.intercepto
 import { User } from './users.entity';
 
 @Serialize(UserDto)
-@UseInterceptors(CurrentUserInterceptor)
 @Controller('auth')
 export class UsersController {
   constructor(private userService: UsersService) {}
 
   @Get('whoami') // Get /auth/whoami
-  whoAmi(@CurrentUserDecorator() user: User) {
+  whoAmi(@CurrentUserDecorator() user: User, @Session() session: any) {
+    const { currentUser } = session;
+
+    if (!session.userId) {
+      throw new UnauthorizedException('You are not authorized.');
+    }
+
     return user;
   }
 
   @Post('signout')
   signOutUser(@Session() session: any) {
     session.userId = null;
-
-    return {};
   }
 
   @Post('signup') // POST /auth/signup
