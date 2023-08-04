@@ -3,6 +3,7 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   NotFoundException,
   Param,
@@ -23,9 +24,33 @@ import { Serialize } from 'src/interceptors/serializer.interceptor';
 export class UsersController {
   constructor(private userService: UsersService) {}
 
+  @Get('whoami') // Get /auth/whoami
+  async whoAmi(@Session() session: any) {
+    if (!session.userId) {
+      throw new ForbiddenException('You are not signed in');
+    }
+
+    const user = await this.userService.findOneUser({ id: session.userId });
+
+    if (!user) {
+      throw new NotFoundException(`User with id: ${user.id} does not exist.`);
+    }
+
+    return user;
+  }
+
+  @Post('signout')
+  signOutUser(@Session() session: any) {
+    session.userId = null;
+
+    return {};
+  }
+
   @Post('signup') // POST /auth/signup
-  async signupUser(@Body() body: CreateUserDto) {
-    return await this.userService.createUser(body);
+  async signupUser(@Body() body: CreateUserDto, @Session() session: any) {
+    const createdUser = await this.userService.createUser(body);
+    session.userId = createdUser.id;
+    return createdUser;
   }
 
   @Post('signin') // POST /auth/signin
