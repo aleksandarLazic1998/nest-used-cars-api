@@ -9,6 +9,7 @@ import { CreateUserDto } from 'src/typescript/dtos/create-user-dto';
 import { Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UpdateUserDto } from 'src/typescript/dtos/update-user-dto';
+import { IFindUser } from 'src/typescript/interfaces/FindUser';
 
 @Injectable()
 export class UsersService {
@@ -27,13 +28,18 @@ export class UsersService {
     return this.userRepository.save(createdUser);
   }
 
-  signInUser() {}
+  async findOneUser({ id, email }: IFindUser): Promise<User> {
+    const query: IFindUser = {};
 
-  async findOneUser(id: number): Promise<User> {
-    const foundUser = await this.userRepository.findOneBy({ id });
+    if (id) query.id = id;
+    if (email) query.email = email;
+
+    const foundUser = await this.userRepository.findOneBy(query);
 
     if (!foundUser) {
-      throw new NotFoundException(`User with id: ${id} not found.`);
+      throw new NotFoundException(
+        `User with id or email: ${id || email} not found.`,
+      );
     }
 
     return foundUser;

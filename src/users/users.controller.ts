@@ -4,10 +4,12 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
   Query,
+  Session,
   UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/typescript/dtos/create-user-dto';
@@ -27,11 +29,22 @@ export class UsersController {
   }
 
   @Post('signin') // POST /auth/signin
-  signInUser() {}
+  async signInUser(@Body() body: CreateUserDto, @Session() session: any) {
+    const user = await this.userService.findOneUser({ email: body.email });
+
+    if (!user) {
+      throw new NotFoundException(
+        `User with email: ${user.email} does not exist.`,
+      );
+    }
+
+    session.userId = user.id;
+    return user;
+  }
 
   @Get('/:id') // GET /auth/:id
   async getSingleUser(@Param('id') id: number) {
-    return await this.userService.findOneUser(id);
+    return await this.userService.findOneUser({ id });
   }
 
   @Get('/:id') // GET /auth/?query_param
