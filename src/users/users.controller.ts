@@ -18,24 +18,18 @@ import { UsersService } from './users.service';
 import { UpdateUserDto } from 'src/typescript/dtos/update-user-dto';
 import { UserDto } from 'src/typescript/dtos/user.dto';
 import { Serialize } from 'src/interceptors/serializer.interceptor';
+import { CurrentUserDecorator } from 'src/decorators/current-user.decorator';
+import { CurrentUserInterceptor } from 'src/interceptors/current-user.interceptor';
+import { User } from './users.entity';
 
 @Serialize(UserDto)
+@UseInterceptors(CurrentUserInterceptor)
 @Controller('auth')
 export class UsersController {
   constructor(private userService: UsersService) {}
 
   @Get('whoami') // Get /auth/whoami
-  async whoAmi(@Session() session: any) {
-    if (!session.userId) {
-      throw new ForbiddenException('You are not signed in');
-    }
-
-    const user = await this.userService.findOneUser({ id: session.userId });
-
-    if (!user) {
-      throw new NotFoundException(`User with id: ${user.id} does not exist.`);
-    }
-
+  whoAmi(@CurrentUserDecorator() user: User) {
     return user;
   }
 
