@@ -24,6 +24,7 @@ import { CurrentUserDecorator } from 'src/decorators/current-user.decorator';
 import { CurrentUserInterceptor } from 'src/interceptors/current-user.interceptor';
 import { User } from './users.entity';
 import { AuthGuard } from 'src/guards/user-auth.guard';
+import { hash, compare } from 'bcrypt';
 
 @Controller('auth')
 @Serialize(UserDto)
@@ -43,7 +44,15 @@ export class UsersController {
 
   @Post('signup') // POST /auth/signup
   async signupUser(@Body() body: CreateUserDto, @Session() session: any) {
-    const createdUser = await this.userService.createUser(body);
+    const { email, password } = body;
+
+    const hashedPassword = await hash(password, 10);
+
+    const createdUser = await this.userService.createUser({
+      email,
+      password: hashedPassword,
+    });
+
     session.userId = createdUser.id;
     return createdUser;
   }
@@ -52,10 +61,10 @@ export class UsersController {
   async signInUser(@Body() body: CreateUserDto, @Session() session: any) {
     const user = await this.userService.findOneUser({ email: body.email });
 
-    if (!user) {
-      throw new NotFoundException(
-        `User with email: ${user.email} does not exist.`,
-      );
+    const isPasswordMatching = await compare(body.password, user.password);
+
+    if (!user || !isPasswordMatching) {
+      throw new NotFoundException('Email or password are not matching.');
     }
 
     session.userId = user.id;
